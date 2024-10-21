@@ -39,7 +39,7 @@ test_prediction(image_path=cat_image_path, model=keras_model_XXS, show=True)
 test_prediction(image_path=cat_image_path, model=keras_model_XS)
 test_prediction(image_path=cat_image_path, model=keras_model_S)
 
-panda_image_path = "res/panda.jpg"
+panda_image_path = "res/panda.JPG"
 test_prediction(image_path=panda_image_path, model=keras_model_XXS, show=True)
 test_prediction(image_path=panda_image_path, model=keras_model_XS)
 test_prediction(image_path=panda_image_path, model=keras_model_S)
