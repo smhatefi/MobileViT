@@ -17,7 +17,7 @@ For evaluating the model on the example images (loacted in the `res/` directory)
 python main.py
 ```
 
-This will sets the keras3 backend and calls the `test.py`.
+This will sets the Keras 3 backend and calls the `test.py`.
 `test.py` itself uses `utils/load_weights.py` to port the official weights of MobileViT to our model.
 
 ## License
