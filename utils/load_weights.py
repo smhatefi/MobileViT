@@ -3,13 +3,13 @@ from mobilevit import build_MobileViT_v1
 import os
 
 # Download pretrained pytorch models weights
-os.system("wget -q -O res/weights/mobilevit_xxs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xxs.pt")
-os.system("wget -q -O res/weights/mobilevit_xs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xs.pt")
-os.system("wget -q -O res/weights/mobilevit_s.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_s.pt")
+os.system("wget -q -O mobilevit_xxs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xxs.pt")
+os.system("wget -q -O mobilevit_xs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xs.pt")
+os.system("wget -q -O mobilevit_s.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_s.pt")
 
-pytorch_weights_xxs =  torch.load("res/weights/mobilevit_xxs.pt", map_location="cpu")
-pytorch_weights_xs  =  torch.load("res/weights/mobilevit_xs.pt",  map_location="cpu")
-pytorch_weights_s   =  torch.load("res/weights/mobilevit_s.pt",   map_location="cpu")
+pytorch_weights_xxs =  torch.load("mobilevit_xxs.pt", map_location="cpu")
+pytorch_weights_xs  =  torch.load("mobilevit_xs.pt",  map_location="cpu")
+pytorch_weights_s   =  torch.load("mobilevit_s.pt",   map_location="cpu")
 
 keras_model_XXS = build_MobileViT_v1(model_type="XXS", input_shape=(256, 256, 3))
 keras_model_XS  = build_MobileViT_v1(model_type="XS",  input_shape=(256, 256, 3))
