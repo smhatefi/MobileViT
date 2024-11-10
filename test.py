@@ -30,7 +30,7 @@ transform = transforms.Compose([
 #val_dataset = ImageNet(root='/', split='val', transform=transform)
 downloadImageNet()
 val_dataset = datasets.ImageFolder('res/imagenet/val', transform=transform)
-val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=4)
+val_loader = DataLoader(val_dataset, batch_size=32, shuffle=False, num_workers=1)
 
 
 # Top-1 Accuracy
