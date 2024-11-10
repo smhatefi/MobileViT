@@ -4,7 +4,7 @@ This repository contains the implementation of MobileViT model in Keras 3.
 ## Project Structure
 - `mobilevit.py`: Contains the main model implementation.
 - `configs.py`: Contains the model configurations.
-- `test.py`: Script for evaluating the model.
+- `evaluate.py`: Script for evaluating the model.
 - `main.py`: Main script for running the model.
 - `res/`: Contains the resources for running scripts.
 - `utils/layers.py`: Contains base layers.
@@ -12,13 +12,12 @@ This repository contains the implementation of MobileViT model in Keras 3.
 
 ## Usage
 
-For evaluating the model on the example images (loacted in the `res/` directory) run the `main.py` script:
+For evaluating the model on the example images (loacted in the `res/` directory) run the `evaluate.py` script:
 ```
-python main.py
+evaluate main.py
 ```
 
-This will sets the Keras 3 backend and calls the `test.py`.
-`test.py` itself uses `utils/load_weights.py` to port the official weights of MobileViT to our model.
+This will uses pre-trained weights to evaluate the model.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
