@@ -11,7 +11,7 @@ from torchvision.datasets import ImageNet
 from torchvision import datasets
 from torch.utils.data import DataLoader
 from utils.load_weights import return_models
-from res.dataset import downloadImageNet
+from utils.dataset import downloadImageNet
 
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")

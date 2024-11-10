@@ -1,5 +1,5 @@
 #!/bin/bash
-
+cd ./res
 # Make imagnet directory
 #
 mkdir imagenet
@@ -27,3 +27,4 @@ wget -qO- https://raw.githubusercontent.com/soumith/imagenetloader.torch/master/
 #  $ find val/ -name "*.JPEG" | wc -l
 #  50000
 #
+cd ..
