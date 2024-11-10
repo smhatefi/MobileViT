@@ -2,18 +2,6 @@ import torch
 from mobilevit import build_MobileViT_v1
 import os
 
-# Download pretrained pytorch models weights
-os.system("wget -q -O mobilevit_xxs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xxs.pt")
-os.system("wget -q -O mobilevit_xs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xs.pt")
-os.system("wget -q -O mobilevit_s.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_s.pt")
-
-pytorch_weights_xxs =  torch.load("mobilevit_xxs.pt", map_location="cpu")
-pytorch_weights_xs  =  torch.load("mobilevit_xs.pt",  map_location="cpu")
-pytorch_weights_s   =  torch.load("mobilevit_s.pt",   map_location="cpu")
-
-keras_model_XXS = build_MobileViT_v1(model_type="XXS", input_shape=(256, 256, 3))
-keras_model_XS  = build_MobileViT_v1(model_type="XS",  input_shape=(256, 256, 3))
-keras_model_S   = build_MobileViT_v1(model_type="S",   input_shape=(256, 256, 3))
 
 class WeightsLayerIterator:
     def __init__(self, pytorch_weights, keras_model):
@@ -61,9 +49,6 @@ def get_pytorch2keras_layer_weights_mapping(pytorch_weights, keras_model):
 
     return layer_mapping
 
-keras_model_xxs_layer_mapping = get_pytorch2keras_layer_weights_mapping(pytorch_weights=pytorch_weights_xxs, keras_model=keras_model_XXS)
-keras_model_xs_layer_mapping  = get_pytorch2keras_layer_weights_mapping(pytorch_weights=pytorch_weights_xs, keras_model=keras_model_XS)
-keras_model_s_layer_mapping   = get_pytorch2keras_layer_weights_mapping(pytorch_weights=pytorch_weights_s, keras_model=keras_model_S)
 
 def load_weights_in_keras_model(keras_model, layer_mapping):
     for keras_layer in keras_model.layers[1:]:
@@ -79,16 +64,32 @@ def load_weights_in_keras_model(keras_model, layer_mapping):
         keras_model.get_layer(keras_layer_name).set_weights(from_pt)
     return keras_model
 
-keras_model_XXS = load_weights_in_keras_model(keras_model=keras_model_XXS, layer_mapping=keras_model_xxs_layer_mapping)
-keras_model_XS  = load_weights_in_keras_model(keras_model=keras_model_XS, layer_mapping=keras_model_xs_layer_mapping)
-keras_model_S   = load_weights_in_keras_model(keras_model=keras_model_S, layer_mapping=keras_model_s_layer_mapping)
 
 def return_models(model_type: str = "S"):
     if model_type == "S":
+        # Download pretrained pytorch model weight
+        os.system("wget -q -O mobilevit_s.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_s.pt")
+        pytorch_weights_s   =  torch.load("mobilevit_s.pt",   map_location="cpu")
+        keras_model_S   = build_MobileViT_v1(model_type="S",   input_shape=(256, 256, 3))
+        keras_model_s_layer_mapping   = get_pytorch2keras_layer_weights_mapping(pytorch_weights=pytorch_weights_s, keras_model=keras_model_S)
+        keras_model_S   = load_weights_in_keras_model(keras_model=keras_model_S, layer_mapping=keras_model_s_layer_mapping)
         return keras_model_S
+    
     elif model_type == "XS":
+        os.system("wget -q -O mobilevit_xs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xs.pt")
+        pytorch_weights_xs  =  torch.load("mobilevit_xs.pt",  map_location="cpu")
+        keras_model_XS  = build_MobileViT_v1(model_type="XS",  input_shape=(256, 256, 3))
+        keras_model_xs_layer_mapping  = get_pytorch2keras_layer_weights_mapping(pytorch_weights=pytorch_weights_xs, keras_model=keras_model_XS)
+        keras_model_XS  = load_weights_in_keras_model(keras_model=keras_model_XS, layer_mapping=keras_model_xs_layer_mapping)
         return keras_model_XS
+    
     elif model_type == "XXS":
+        os.system("wget -q -O mobilevit_xxs.pt https://docs-assets.developer.apple.com/ml-research/models/cvnets/classification/mobilevit_xxs.pt")
+        pytorch_weights_xxs =  torch.load("mobilevit_xxs.pt", map_location="cpu")
+        keras_model_XXS = build_MobileViT_v1(model_type="XXS", input_shape=(256, 256, 3))
+        keras_model_xxs_layer_mapping = get_pytorch2keras_layer_weights_mapping(pytorch_weights=pytorch_weights_xxs, keras_model=keras_model_XXS)
+        keras_model_XXS = load_weights_in_keras_model(keras_model=keras_model_XXS, layer_mapping=keras_model_xxs_layer_mapping)
         return keras_model_XXS
+    
     else:
         return None
