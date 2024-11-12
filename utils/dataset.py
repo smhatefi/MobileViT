@@ -7,4 +7,4 @@ def downloadImageNet():
 
     #os.system("tar -xf ILSVRC2012_img_val.tar")
     #os.system("tar -xf ILSVRC2012_devkit_t12.tar.gz")
-    subprocess.call(['sh', './res/extract_ILSVRC.sh'])
+    #subprocess.call(['sh', './res/extract_ILSVRC.sh'])
