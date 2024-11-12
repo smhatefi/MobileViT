@@ -55,6 +55,7 @@ num_params = keras_model_XS.count_params()
 print(f'Number of Parameters: {num_params}')
 
 
+# FLOPs
 os.system("pip install torchprofile")
 
 from torchprofile import profile_macs
