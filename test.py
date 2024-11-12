@@ -22,8 +22,7 @@ keras_model_XS = keras_model_XS.to(device)
 # Define transformation and dataset
 transform = transforms.Compose([
    transforms.Resize((256, 256)),
-   transforms.ToTensor(),
-   transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+   transforms.ToTensor()
 ])
 
 downloadImageNet()
@@ -36,6 +35,8 @@ def evaluate_top1_accuracy(model, dataloader):
     model.eval()
     correct = 0
     total = 0
+    i = 0
+    print("Evaluating Top-1 Accuracy...")
     with torch.no_grad():
         for images, labels in dataloader:
             images, labels = images.to(device), labels.to(device)
@@ -44,6 +45,8 @@ def evaluate_top1_accuracy(model, dataloader):
             _, predicted = outputs.max(1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
+            print(f"Batch {i+1}/{len(dataloader)}")
+            i += 1
     return correct / total
 
 top1_accuracy = evaluate_top1_accuracy(keras_model_XS, val_loader)
@@ -60,19 +63,12 @@ os.system("pip install torchprofile")
 
 from torchprofile import profile_macs
 
-# Ensure model is in evaluation mode
 keras_model_XS.eval()
-
-# Define input tensor with the correct shape
 input_tensor = torch.randn(1, 3, 256, 256).to(device)
-
-# Rearrange dimensions to match Keras expected input shape (batch_size, height, width, channels)
 input_tensor = input_tensor.permute(0, 2, 3, 1)
-
 # Calculate MACs (multiply-accumulate operations)
 macs = profile_macs(keras_model_XS, input_tensor)
 flops = 2 * macs  # FLOPs are generally twice the MACs in CNNs
-
 print(f"FLOPs: {flops / 1e9:.2f} GFLOPs")
 
 
