@@ -55,12 +55,24 @@ num_params = keras_model_XS.count_params()
 print(f'Number of Parameters: {num_params}')
 
 
-os.system("pip install keras-flops")
+os.system("pip install torchprofile")
 
-from keras_flops import get_flops
+from torchprofile import profile_macs
 
-flops = get_flops(keras_model_XS, batch_size=1)
-print(f"FLOPs: {flops / 10**9:.2f} GigaFLOPs")
+# Ensure model is in evaluation mode
+keras_model_XS.eval()
+
+# Define input tensor with the correct shape
+input_tensor = torch.randn(1, 3, 256, 256).to(device)
+
+# Rearrange dimensions to match Keras expected input shape (batch_size, height, width, channels)
+input_tensor = input_tensor.permute(0, 2, 3, 1)
+
+# Calculate MACs (multiply-accumulate operations)
+macs = profile_macs(keras_model_XS, input_tensor)
+flops = 2 * macs  # FLOPs are generally twice the MACs in CNNs
+
+print(f"FLOPs: {flops / 1e9:.2f} GFLOPs")
 
 
 # Inference Time
@@ -68,10 +80,17 @@ import time
 
 def measure_inference_time_keras(model, dataloader, num_batches=100):
     start_time = time.time()
+    
     for i, (images, _) in enumerate(dataloader):
         if i == num_batches:
             break
-        _ = model(images)  # Run the inference
+        
+        # Rearrange dimensions to match Keras expected input shape (batch_size, height, width, channels)
+        images = images.permute(0, 2, 3, 1).to(device)
+        
+        with torch.no_grad():  # Ensure no gradients are calculated
+            _ = model(images)  # Run the inference
+    
     avg_inference_time = (time.time() - start_time) / num_batches
     return avg_inference_time
 
