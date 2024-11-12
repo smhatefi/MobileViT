@@ -13,7 +13,7 @@ from utils.load_weights import return_models
 import argparse
 
 # Set up argument parser
-parser = argparse.ArgumentParser(description='Test the model on ImageNet')
+parser = argparse.ArgumentParser(description='Evaluate the model on sample images')
 
 parser.add_argument('--model_size', type=str, default='XS',
                     help='Model Size = S, XS or XXS')
