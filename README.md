@@ -9,7 +9,7 @@ This repository contains the implementation of MobileViT model in Keras 3.
 - `res/`: Contains the resources for running scripts.
 - `utils/layers.py`: Contains base layers.
 - `utils/load_weights.py`: Contains utility functions for porting weights from the official MobileViT model.
-- `utils/dataset.py`: Downloads ImageNet val dataset for validating th model.
+- `utils/dataset.py`: Downloads ImageNet val dataset for validating the model.
 
 ## Usage
 
