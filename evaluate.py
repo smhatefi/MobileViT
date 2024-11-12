@@ -10,11 +10,20 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 from utils.load_weights import return_models
+import argparse
 
+# Set up argument parser
+parser = argparse.ArgumentParser(description='Test the model on ImageNet')
 
-keras_model_XXS = return_models("XXS")
-keras_model_XS  = return_models("XS")
-keras_model_S   = return_models("S")
+parser.add_argument('--model_size', type=str, default='XS',
+                    help='Model Size = S, XS or XXS')
+
+parser.add_argument('--image_path', type=str, default='res/cat.jpg',
+                    help='Full path to the image file')
+
+args = parser.parse_args()
+model_size = args.model_size
+model  = return_models(model_size)
 
 # Load the labels (ImageNet class names)
 with open("res/imagenet_classes.txt", "r") as f:
@@ -41,13 +50,4 @@ def test_prediction(*, image_path, model=None, image_shape=(256, 256), show=True
     print(f"Model: {model.name}, Predictions: {labels[preds.argmax()]}")
 
 
-cat_image_path = "res/cat.jpg"
-
-test_prediction(image_path=cat_image_path, model=keras_model_XXS, show=True)
-test_prediction(image_path=cat_image_path, model=keras_model_XS)
-test_prediction(image_path=cat_image_path, model=keras_model_S)
-
-panda_image_path = "res/panda.JPG"
-test_prediction(image_path=panda_image_path, model=keras_model_XXS, show=True)
-test_prediction(image_path=panda_image_path, model=keras_model_XS)
-test_prediction(image_path=panda_image_path, model=keras_model_S)
+test_prediction(image_path=args.image_path, model=model, show=True)
