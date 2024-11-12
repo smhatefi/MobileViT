@@ -18,14 +18,14 @@ For evaluating the model on the example images (loacted in the `res/` directory)
 ```
 python evaluate.py
 ```
-This will uses pre-trained weights to evaluate the model.
+This will use pre-trained weights to evaluate the model.
 
 ### Testing the model
 For validating the model on ImageNet val set run the `test.py` script:
 ```
 python test.py
 ```
-This will uses pre-trained weights to test the model on ImageNet-1k val dataset.
+This will use pre-trained weights to test the model on ImageNet-1k val dataset.
 
 ## License
 This project is licensed under the MIT License. See the `LICENSE` file for details.
