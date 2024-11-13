@@ -32,7 +32,7 @@ You can set the model size (S, XS, or XXS).
 ## Results
 I tested all of the models (S, XS and XXS) on **T4 GPU of Google colab** and here is the obtained results:
 
-| Model size | Top-1 Accuracy | # Parameters | FLOPs | Inference Time per Batch (`batch_size=32`) |
+| Model size | Top-1 Accuracy | # Parameters | FLOPs | Inference Time (for `batch_size=32`) |
 | ------------- | ------------- | ------------- | ------------- | ------------- |
 | XXS | 49.83% | 1.27 M | 0.44 G | 0.2756 seconds |
 | XS | 58.53% | 2.32 M | 0.86 G | 0.2812 seconds |
