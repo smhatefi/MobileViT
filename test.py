@@ -31,9 +31,9 @@ model = model.to(device)
 
 # Define transformation and dataset
 transform = transforms.Compose([
-   transforms.Lambda(lambda x: x[[2, 1, 0], ...]),  # Convert from RGB to BGR
    transforms.Resize((256, 256)),
-   transforms.ToTensor()
+   transforms.ToTensor(),
+   transforms.Lambda(lambda x: x[[2, 1, 0], ...])  # Convert from RGB to BGR (MobileViT is trained on BGR images)
 ])
 
 downloadImageNet()
