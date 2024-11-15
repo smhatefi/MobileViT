@@ -12,6 +12,7 @@ from torch.utils.data import DataLoader
 from utils.load_weights import return_models
 from utils.dataset import downloadImageNet
 import argparse
+from tqdm import tqdm
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -30,6 +31,7 @@ model = model.to(device)
 
 # Define transformation and dataset
 transform = transforms.Compose([
+   transforms.Lambda(lambda x: x[[2, 1, 0], ...]),  # Convert from RGB to BGR
    transforms.Resize((256, 256)),
    transforms.ToTensor()
 ])
@@ -44,18 +46,14 @@ def evaluate_top1_accuracy(model, dataloader):
     model.eval()
     correct = 0
     total = 0
-    i = 0
-    print("Evaluating Top-1 Accuracy...")
     with torch.no_grad():
-        for images, labels in dataloader:
+        for images, labels in tqdm(dataloader, 'Evaluating...'):
             images, labels = images.to(device), labels.to(device)
             images = images.permute(0, 2, 3, 1)  # Convert to (batch, height, width, channels)
             outputs = model(images)
             _, predicted = outputs.max(1)
             total += labels.size(0)
             correct += (predicted == labels).sum().item()
-            print(f"Batch {i+1}/{len(dataloader)}")
-            i += 1
     return correct / total
 
 top1_accuracy = evaluate_top1_accuracy(model, val_loader)
